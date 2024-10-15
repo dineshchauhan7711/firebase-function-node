@@ -27,6 +27,7 @@
       "port": 9099
     },
     "functions": {
+      "host": "0.0.0.0",
       "port": 5001
     },
     "firestore": {
@@ -36,5 +37,26 @@
       "enabled": true
     },
     "singleProjectMode": true
+  },
+  "hosting": {
+    "headers": [
+      {
+        "source": "**",
+        "headers": [
+          {
+            "key": "Access-Control-Allow-Origin",
+            "value": "*"
+          },
+          {
+            "key": "Access-Control-Allow-Methods",
+            "value": "GET, POST, OPTIONS"
+          },
+          {
+            "key": "Access-Control-Allow-Headers",
+            "value": "Content-Type"
+          }
+        ]
+      }
+    ]
   }
 }

@@ -1,19 +1,37 @@
-/**
- * Import function triggers from their respective submodules:
- *
- * const {onCall} = require("firebase-functions/v2/https");
- * const {onDocumentWritten} = require("firebase-functions/v2/firestore");
- *
- * See a full list of supported triggers at https://firebase.google.com/docs/functions
- */
+// Modules
+const functions = require("firebase-functions");
+const express = require("express");
+const cors = require('cors');
 
-const {onRequest} = require("firebase-functions/v2/https");
-const logger = require("firebase-functions/logger");
+// Files
+const { db } = require("./connection/initialize_firebase");
 
-// Create and deploy your first functions
-// https://firebase.google.com/docs/functions/get-started
+const app = express();
+app.use(cors({ origin: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
-// exports.helloWorld = onRequest((request, response) => {
-//   logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
+
+// Routes
+// const routes = require("./routes/index.routes");
+// app.use("/", routes);
+
+// Not found
+app.use((req, res, next) => {
+  res.status(404).send({
+    success: false,
+    message: "Not found",
+  });
+});
+
+// Error
+app.use((err, req, res, next) => {
+  console.log('Error ==>>> ', err)
+  res.status(500).send({
+    success: false,
+    message: "Something went wrong",
+  });
+});
+
+
+exports.api = functions.https.onRequest(app);
