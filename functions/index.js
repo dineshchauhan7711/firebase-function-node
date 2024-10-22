@@ -13,8 +13,8 @@ app.use(express.urlencoded({ extended: false }));
 
 
 // Routes
-// const routes = require("./routes/index.routes");
-// app.use("/", routes);
+const routes = require("./routes/index");
+app.use("/", routes);
 
 // Not found
 app.use((req, res, next) => {
