@@ -1,4 +1,4 @@
-const messages = require('../lang/en/messages.js');
+const messages = require('./messages.js');
 
 /***
  * Success Response 

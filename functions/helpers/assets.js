@@ -1,5 +1,5 @@
 
-const config = require('../config/config');
+const config = require('../connection/config');
 
 /***
  * Get File URL
