@@ -3,7 +3,7 @@ const {
      response,
      validator,
      firebase_auth,
-     firebase_storage: { generateFileUrl }
+     firebase_storage: { generateFileUrl, deleteFile }
 } = require('../helpers');
 
 // Models/Collections
@@ -119,14 +119,34 @@ const editProfile = async (req, res) => {
           };
 
           const {
+               user: { user_id },
                body: {
                     name,
-                    phone_number
+                    phone_number,
+                    profile_image
                },
-               files,
           } = req;
-          
 
+          // Find User
+          const user = await User.doc(user_id).get();
+          if (!user.exists) {
+               return response.error(res, 1005);
+          };
+          const userData = user.data();
+
+          // Update User
+          await User.doc(req.user.user_id).update({
+               name,
+               phone_number,
+               profile_image
+          });
+
+          // Remove old profile image
+          if (profile_image && userData.profile_image) {
+               await deleteFile(userData.profile_image);
+          };
+
+          return response.success(res, 1008);
      } catch (error) {
           console.log('error ::>>', error)
           return response.error(res, 9999);
@@ -136,5 +156,6 @@ const editProfile = async (req, res) => {
 
 module.exports = {
      registerUser,
-     getProfile
+     getProfile,
+     editProfile
 };

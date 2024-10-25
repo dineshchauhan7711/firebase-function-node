@@ -36,6 +36,8 @@ const auth = async (req, res, next) => {
     //   return response.error(res, decodedToken.message, 401);
     // };
 
+    // decodedToken.data.user_id
+
     // Check if user exists
     const user = await User.doc('vGMk9btmRHg0iVVNIvRIgtRDXy43').get();
     if (!user.exists) {

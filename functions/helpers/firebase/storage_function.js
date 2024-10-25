@@ -3,21 +3,6 @@ const { bucket } = require("../../connection/initialize_firebase");
 
 
 /**
- * Upload file to storage
- */
-const uploadFile = async (file) => {
-     try {
-          const options = {
-               destination: file.originalname
-          };
-          await bucket.upload(file.path, options);
-     } catch (error) {
-          console.error("Error in uploadFile :: ===>> ", error);
-     };
-};
-
-
-/**
  * Generate file url
  */
 const generateFileUrl = async (file) => {
