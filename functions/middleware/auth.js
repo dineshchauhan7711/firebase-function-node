@@ -31,15 +31,13 @@ const auth = async (req, res, next) => {
     const headerToken = req.headers.authorization;
 
     // Verify Id Token
-    // const decodedToken = await verifyIdToken(headerToken);
-    // if (!decodedToken.success) {
-    //   return response.error(res, decodedToken.message, 401);
-    // };
-
-    // decodedToken.data.user_id
+    const decodedToken = await verifyIdToken(headerToken);
+    if (!decodedToken.success) {
+      return response.error(res, decodedToken.message, 401);
+    };
 
     // Check if user exists
-    const user = await User.doc('vGMk9btmRHg0iVVNIvRIgtRDXy43').get();
+    const user = await User.doc(decodedToken.data.user_id).get();
     if (!user.exists) {
       return response.error(res, 1011, 401);
     };
@@ -58,7 +56,7 @@ const auth = async (req, res, next) => {
     };
 
     req.user = {
-      user_id: "vGMk9btmRHg0iVVNIvRIgtRDXy43",
+      user_id: decodedToken.data.user_id,
       role: userData.role,
       access: userData.access,
     };
